@@ -11,12 +11,16 @@ import pdfkit
 from weasyprint import HTML, CSS
 import datetime
 from datetime import date
+import os
+from dotenv import load_dotenv, find_dotenv
+import streamlit as st
 
 
 
 # Load environment variables
 _ = load_dotenv(find_dotenv())
 openai_api_key = os.environ.get("OPENAI_API_KEY")
+
 
 def markdown_to_pdf(markdown_text, output_filename):
     # Convert Markdown to HTML
@@ -42,16 +46,32 @@ def markdown_to_pdf(markdown_text, output_filename):
         }}
     }}
     """)
-
     # Create the output folder if it doesn't exist
     output_folder = 'output'
     os.makedirs(output_folder, exist_ok=True)
+    print(f"Output folder: {output_folder}")
 
     # Set the output file path
     output_path = os.path.join(output_folder, output_filename)
+    print(f"Output path: {output_path}")
 
     # Convert HTML to PDF and save to the output folder
     HTML(string=html).write_pdf(output_path, stylesheets=[css])
+    print("PDF generated successfully.")
+
+    # Read the created PDF and return its binary content
+    with open(output_path, 'rb') as file:
+        pdf_data = file.read()
+    return pdf_data
+
+def handle_exception(e):
+    print(f"Error in markdown_to_pdf: {e}")
+
+try:
+    # Code that may raise an exception
+    pass
+except Exception as e:
+    handle_exception(e)
 
 
 
@@ -59,12 +79,12 @@ class ReaderTool:
     @tool("Gets text from CV")
     def extract_text_from_file(file_path):
         """This is used to extract text from .txt, pdf or docx files"""
-        file_path = "cvs_to_convert/input-cv.pdf"
+        file_path = uploaded_file.name
         _, file_extension = os.path.splitext(file_path)
         cv_text = ""
 
         if file_extension == ".txt":
-            with open(file_path, 'r') as file:
+            with uploaded_file as file:
                     cv_text = file.read()
         elif file_extension == ".docx":
             doc = Document(file_path)
@@ -72,7 +92,7 @@ class ReaderTool:
                 print(f"Paragraph: {para.text}")  # Add this line
                 cv_text += para.text
         elif file_path.endswith(".pdf"):
-            pdf_file_obj = open(file_path, 'rb')
+            pdf_file_obj = uploaded_file
             pdf_reader = PdfReader(pdf_file_obj)
             num_pages = len(pdf_reader.pages)
             for page in pdf_reader.pages:
@@ -125,16 +145,20 @@ task_write_cv = Task(
     - **Github:** [Github profile]
     - **Personal website:**[Personal website]
     # About me
+    <div align="justify">
     - [Description of yourself]
+    </div>
     # Job experience
     ## [Company name]
     ### [Position] 
     - Duration
     - Location
     ##[Responsibilities]
+    <div align="justify">
     - Description of responsibilities
     - Description of achievements in that position
     - Description of technologies, stack or skills used in that position
+    </div>
 
     # Education
     ## [Institution name]
@@ -149,7 +173,7 @@ task_write_cv = Task(
     ## Skills
     - [Programming languages] [Skill level]
     - [Technologies] 
-    - [Other skills] 
+    - [Other skills]  
    
    
     """,
@@ -170,16 +194,20 @@ task_edit_cv = Task(
     - **Github:** [Github profile]
     - **Personal website:**[Personal website]
     # About me
+    <div align="justify">
     - [Description of yourself]
+    </div>
     # Job experience
     ## [Company name]
     ### [Position] 
     - Duration
     - Location
     ##[Responsibilities]
+    <div align="justify">
     - Description of responsibilities
     - Description of achievements in that position
     - Description of technologies, stack or skills used in that position
+    </div>
 
     # Education
     ## [Institution name]
@@ -214,11 +242,75 @@ crew = Crew(
     process=Process.sequential,  # Sequential process will have tasks executed one after the other and the outcome of the previous one is passed as extra content into this next.
 )
 
-# Get your crew to work!
-result = crew.kickoff()
+import streamlit as st
 
-print("######################")
-print("CV processed")
-timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-output_file = f"output_{timestamp}.pdf"
-markdown_to_pdf(result, output_file)
+
+import streamlit as st
+
+# Function to handle PDF download
+def handle_pdf_download():
+    if 'result' in st.session_state and st.session_state['result']:
+        # Generate PDF from Markdown
+        pdf_data = markdown_to_pdf(st.session_state['result'], 'output.pdf')
+        if pdf_data:
+            st.download_button(label="Download PDF", data=pdf_data, file_name='output.pdf', mime='application/pdf')
+        else:
+            st.error("Error in generating PDF file.")
+    else:
+        st.error("No data to generate PDF.")
+
+# Function to generate PDF from edited markdown
+def generate_and_download_pdf(edited_markdown, filename):
+    pdf_data = markdown_to_pdf(edited_markdown, filename)
+    if pdf_data:
+        print("PDF data generated successfully.")
+        return pdf_data
+    else:
+        print("Failed to generate PDF data.")
+        return None
+
+# Display a text area for editing the markdown
+if 'result' in st.session_state and st.session_state['result']:
+    edited_markdown = st.text_area('Edit the markdown here:', value=st.session_state['result'], height=300)
+
+    # Combined button for generating and downloading the PDF
+    if st.button('Save'):
+        pdf_data = generate_and_download_pdf(edited_markdown, 'edited_output.pdf')
+        if pdf_data:
+            st.download_button(label="Download Edited PDF", data=pdf_data, file_name='edited_output.pdf', mime='application/pdf')
+        else:
+            st.error("Error in generating PDF file.")
+
+
+
+
+
+
+
+
+# Initialize session state variables
+if 'uploaded_file' not in st.session_state:
+    st.session_state['uploaded_file'] = None
+if 'result' not in st.session_state:
+    st.session_state['result'] = None
+
+st.title('File Upload Tutorial')
+
+# File uploader
+uploaded_file = st.file_uploader("Choose a file", type=['txt', 'pdf', 'docx'])
+if uploaded_file is not None:
+    st.session_state['uploaded_file'] = uploaded_file
+
+# Process button
+if st.button('Process') and st.session_state['uploaded_file'] is not None:
+    st.session_state['result'] = crew.kickoff()
+    st.write(st.session_state['result'])
+    st.markdown(st.session_state['result'])
+
+  # Direct Download PDF button
+    if 'result' in st.session_state and st.session_state['result']:
+        pdf_data = markdown_to_pdf(st.session_state['result'], 'output.pdf')
+        if pdf_data:
+            st.download_button(label="Download PDF", data=pdf_data, file_name='output.pdf', mime='application/pdf')
+
+

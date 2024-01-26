@@ -1,97 +1,67 @@
-# Convert CVs to ZirconTech format
+# CV Format Standardizer
 
 ## Overview
-
-This Python script provides a comprehensive solution for processing resumes (CVs) using various libraries and APIs. The script includes functionality to extract text from different file formats, convert Markdown to PDF, and employ AI agents to transcribe and edit CVs.
+CV Format Standardizer is an application designed for organizations receiving CVs in various formats, aiming to standardize them into a specified, branded format. This tool streamlines the process of formatting resumes, ensuring consistency and professionalism in the presentation of applicant information.
 
 ## Features
+- **Multiple File Format Support:** Handles `.txt`, `.pdf`, and `.docx` files, extracting text for processing.
+- **Automated CV Transcription and Editing:** Utilizes AI agents for transcribing and refining CV content.
+- **Custom Branding:** Integrates company logo and standardized formatting in the final output.
+- **PDF Generation:** Converts standardized CV content into a professional PDF format.
+- **Interactive Web Interface:** Built with Streamlit, providing an easy-to-use platform for file uploads and downloads.
 
-- **File Format Support**: Extracts text from `.txt`, `.pdf`, and `.docx` files.
-- **Markdown to PDF Conversion**: Converts Markdown text to a styled PDF document.
-- **AI-Powered Processing**: Utilizes Crew AI for transcribing and editing CVs with predefined roles and goals.
+## Installation
+To set up CV Format Standardizer, follow these steps:
+1. **Clone the Repository:**
+   ```bash
+   git clone [repository-link]
+   ```
+2. **Install Dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+   This will install necessary libraries such as `docx`, `PyPDF2`, `streamlit`, and others.
 
-## Dependencies
-
-- `os`
-- `docx`
-- `PyPDF2`
-- `langchain`
-- `crewai`
-- `dotenv`
-- `markdown`
-- `pdfkit`
-- `weasyprint`
-- `datetime`
-
-## Setup and Configuration
-
-### Prerequisites
-
-- Python 3.6 or later.
-- Install required Python packages: 
-    ```bash
-    pip install python-docx PyPDF2 langchain crewai python-dotenv markdown pdfkit weasyprint
-    ```
-
-### Environment Variables
-
-- An OpenAI API key is required. Set it in a `.env` file in the project directory.
-    ```
-    OPENAI_API_KEY=your_openai_api_key_here
-    LOGO_URL='url to logo'
-  
-  ```
-
-### File and Folder Structure
-
-- Place the `.env` file in the root directory.
-- Create a directory named `output` for the PDFs generated.
-- Create a directory named `cvs_to_convert` for CV files to be processed.
+3. **Set Environment Variables:**
+   Create a `.env` file in the root directory and add the following keys:
+   ```
+   OPENAI_API_KEY=[Your OpenAI API Key]
+   LOGO_URL=[URL of your company logo]
+   ```
+   Replace the placeholders with your actual API key and logo URL.
 
 ## Usage
+To run the application:
+1. Start the Streamlit server:
+   ```bash
+   streamlit run app.py
+   ```
+2. Navigate to the displayed URL in your web browser.
+3. Upload a CV in one of the supported formats.
+4. Click 'Process' to standardize the format and view the result.
+5. Optionally, edit the markdown content and download the standardized CV as a PDF.
 
-1. **Environment Setup**: Load environment variables, particularly the OpenAI API key.
-   
-2. **Markdown to PDF Function**: 
-   - Converts Markdown text to HTML.
-   - Adds a logo and current date to the document.
-   - Saves the output as a PDF in the `output` folder.
+## How it Works
+- **File Upload:** Users upload a CV, which the system reads and processes.
+- **Text Extraction:** The `ReaderTool` class extracts text from the uploaded file.
+- **AI-Driven Processing:** AI agents (`cv_transcriber` and `cv_editor`) analyze and edit the CV content, ensuring relevance and conciseness.
+- **Markdown to PDF Conversion:** The application converts the final markdown content into a stylized PDF, incorporating the company logo and date.
+**Note:** The file can be manually edited onscreen and downloaded if a human deems necessary to make any correction or addition.
 
-3. **ReaderTool Class**: 
-   - Defines a method to extract text from `.txt`, `.pdf`, and `.docx` files.
-   - Handles different file formats and outputs the extracted text.
 
-4. **Crew AI Agents**:
-   - `cv_transcriber`: An agent designed to transcribe CVs.
-   - `cv_editor`: An agent tasked with editing the transcribed CVs for redundancies and clarity.
+## Contributing
+Contributions to CV Format Standardizer are welcome. Please follow these steps to contribute:
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Submit a pull request with a clear description of your changes.
 
-5. **Tasks**:
-   - Define tasks for transcribing and editing CVs.
-   - Utilize the agents and process the text in Markdown format.
-
-6. **Crew Initialization**:
-   - Instantiate a crew of agents.
-   - Define the process as sequential, where each task's output is passed to the next.
-
-7. **Execution**: 
-   - Kick off the crew process.
-   - The result is printed and converted to a PDF file.
-
-8. **Output**: 
-   - The processed CV is saved as a PDF in the `output` folder.
-
-## Notes
-
-- The script assumes the presence of certain directories (`output`, `cvs_to_convert`).
-- The API key and file paths must be correctly set for the script to work.
-- The script can be modified to accommodate different file paths or additional functionalities as needed.
 
 ## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-MIT License
+## Contact
+For support or queries, please contact [contact-email].
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+---
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+**Note:** This README is a guide for setting up and using the CV Format Standardizer. Modify it as necessary to match the specifics of your repository and project structure.
