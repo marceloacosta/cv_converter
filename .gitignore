@@ -162,4 +162,4 @@ cython_debug/
 # Folders to ignore
 cvs_to_convert
 output
-
+tools
