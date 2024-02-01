@@ -1,0 +1,8 @@
+python-docx
+PyPDF2
+langchain
+crewai
+python-dotenv
+markdown
+WeasyPrint
+streamlit
