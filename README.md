@@ -14,6 +14,18 @@ CV Format Standardizer is an application designed for organizations receiving CV
 
 ## Installation
 
+### Prerequisites
+
+Before running this project, you need to have `wkhtmltopdf` installed on your system as it's required by the `pdfkit` library to convert HTML to PDF.
+
+#### Installation Instructions
+
+- **Linux (Debian/Ubuntu):**
+
+  ```bash
+  sudo apt-get install wkhtmltopdf
+  ```
+
 To set up CV Format Standardizer, follow these steps:
 
 1. **Clone the Repository:**

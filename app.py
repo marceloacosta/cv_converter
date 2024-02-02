@@ -306,5 +306,3 @@ if st.button('Process') and st.session_state['uploaded_file'] is not None:
         pdf_data = markdown_to_pdf(st.session_state['result'], 'output.pdf')
         if pdf_data:
             st.download_button(label="Download PDF", data=pdf_data, file_name='output.pdf', mime='application/pdf')
-
-
