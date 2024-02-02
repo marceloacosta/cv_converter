@@ -14,7 +14,7 @@ from datetime import date
 import os
 from dotenv import load_dotenv, find_dotenv
 
-# Load environment variables
+# Load environment variable
 _ = load_dotenv(find_dotenv())
 openai_api_key = os.environ.get("OPENAI_API_KEY")
 
@@ -142,7 +142,7 @@ task_write_cv = Task(
     - **Github:** [Github profile]
     - **Personal website:**[Personal website]
     # About me
-    <div align="justify">
+    <div style="text-align: justify"> 
     - [Description of yourself]
     </div>
     # Job experience
@@ -151,7 +151,7 @@ task_write_cv = Task(
     - Duration
     - Location
     ##[Responsibilities]
-    <div align="justify">
+    <div style="text-align: justify"> 
     - Description of responsibilities
     - Description of achievements in that position
     - Description of technologies, stack or skills used in that position
@@ -191,7 +191,7 @@ task_edit_cv = Task(
     - **Github:** [Github profile]
     - **Personal website:**[Personal website]
     # About me
-    <div align="justify">
+    <div style="text-align: justify"> 
     - [Description of yourself]
     </div>
     # Job experience
@@ -200,7 +200,7 @@ task_edit_cv = Task(
     - Duration
     - Location
     ##[Responsibilities]
-    <div align="justify">
+    <div style="text-align: justify"> 
     - Description of responsibilities
     - Description of achievements in that position
     - Description of technologies, stack or skills used in that position
