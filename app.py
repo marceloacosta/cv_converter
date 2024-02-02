@@ -13,9 +13,6 @@ import datetime
 from datetime import date
 import os
 from dotenv import load_dotenv, find_dotenv
-import streamlit as st
-
-
 
 # Load environment variables
 _ = load_dotenv(find_dotenv())
@@ -241,9 +238,6 @@ crew = Crew(
     verbose=2,
     process=Process.sequential,  # Sequential process will have tasks executed one after the other and the outcome of the previous one is passed as extra content into this next.
 )
-
-import streamlit as st
-
 
 import streamlit as st
 
