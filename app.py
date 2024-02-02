@@ -14,7 +14,7 @@ from datetime import date
 import os
 from dotenv import load_dotenv, find_dotenv
 
-# Load environment variables
+# Load environment variable
 _ = load_dotenv(find_dotenv())
 openai_api_key = os.environ.get("OPENAI_API_KEY")
 
