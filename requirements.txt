@@ -4,5 +4,7 @@ langchain
 crewai
 python-dotenv
 markdown
+pdfkit
 WeasyPrint
 streamlit
+langchain-openai
