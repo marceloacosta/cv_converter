@@ -294,7 +294,7 @@ if 'uploaded_file' not in st.session_state:
 if 'result' not in st.session_state:
     st.session_state['result'] = None
 
-st.title('File Upload Tutorial')
+st.title('CV Format Standardizer')
 
 # File uploader
 uploaded_file = st.file_uploader("Choose a file", type=['txt', 'pdf', 'docx'])
