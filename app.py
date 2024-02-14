@@ -130,7 +130,7 @@ cv_editor = Agent(
 
 
 task_write_cv = Task(
-    description=f"""Use the text extracted from the CV text and write comprehensive personal information, job experience and education sections. 
+    description=f"""Use the text extracted from the CV text and write comprehensive personal information, job experience and education sections. Make sure you include all job experiences and education details.
     For your Outputs use the following markdown format (If any of the requested information can not be found or it is Not Specified don't include that subsection. Do not invent, guess or assume any information.):
     If Skill level is not specified, leave it empty. If any of the requested information can not be found or it is Not Specified don't include that subsection. Do not invent, guess or assume any information.
 
