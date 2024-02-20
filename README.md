@@ -80,6 +80,7 @@ Deploy to [fly.io](https://fly.io)!
 ### Set the app secrets
 
 `fly secrets set OPENAI_API_KEY='sk-your-key-here'`
+`LOGO_URL='https://company.com/logo.svg'`
 
 ### Deploy the app
 
